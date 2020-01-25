@@ -11,11 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class ItemController {
@@ -51,5 +53,30 @@ public class ItemController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(allComments);
 
+	}
+
+	@DeleteMapping("comments/{id}")
+	public ResponseEntity deleteComment(@PathVariable("id") Long id) {
+		try {
+			LOGGER.info("About to delete a comment with {} id", id);
+			commentService.deleteComment(id);
+			return ResponseEntity.status(HttpStatus.OK).body("Comment deleted successfully");
+		} catch (NoSuchElementException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found");
+		}
+	}
+
+	@DeleteMapping("item/{id}")
+	public ResponseEntity deleteItemById(@PathVariable("id") Long id) {
+
+		Item itemById = itemService.getItemById(id);
+
+		if (itemById == null) {
+			LOGGER.error("Item with id {} was not found: ", id);
+			return ResponseEntity.noContent().build();
+		}
+		itemService.deleteComment(id);
+
+		return ResponseEntity.status(HttpStatus.OK).body("deleted");
 	}
 }

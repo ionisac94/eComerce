@@ -37,4 +37,8 @@ public class CommentService {
 			return allByItem;
 		}
 	}
+
+	public void deleteComment(Long id) {
+		commentRepository.deleteById(id);
+	}
 }

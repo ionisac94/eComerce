@@ -25,10 +25,14 @@ public class ItemService {
 	}
 
 	public Item getItemById(Long id) {
-		LOGGER.info("About find Item by id: " + id);
+		LOGGER.info("About to find Item by id: " + id);
 
 		Optional<Item> byId = itemRepository.findById(id);
 
 		return byId.orElse(null);
+	}
+
+	public void deleteComment(Long id) {
+		itemRepository.deleteById(id);
 	}
 }

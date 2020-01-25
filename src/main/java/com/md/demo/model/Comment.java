@@ -3,6 +3,7 @@ package com.md.demo.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,8 +17,9 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY) // does the same as @OnDelete(action = OnDeleteAction.CASCADE)
+//	@ManyToOne
+//	@OnDelete(action = OnDeleteAction.CASCADE) delete only Comment row from BD and not Item
 	@JoinColumn(name = "item_id")
 	@NotNull
 	public Item item;

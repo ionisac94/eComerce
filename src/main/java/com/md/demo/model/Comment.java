@@ -1,7 +1,6 @@
 package com.md.demo.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Comments")
 public class Comment {
 
 	@Id
@@ -24,29 +20,12 @@ public class Comment {
 	@ManyToOne
 	@JoinColumn(name = "item_id")
 	@NotNull
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	public Item item;
-
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	@NotNull
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	public User user;
-
-	@NotNull
-	private Timestamp dateTime;
 
 	@NotNull
 	private String comment;
 
 	public Comment() { // Default constructor for JPA
-	}
-
-	public Comment(Item item, User user, Timestamp dateTime, String comment) {
-		this.item = item;
-		this.user = user;
-		this.dateTime = dateTime;
-		this.comment = comment;
 	}
 
 	public Long getId() {
@@ -65,14 +44,6 @@ public class Comment {
 		this.item = item;
 	}
 
-	public Timestamp getDateTime() {
-		return dateTime;
-	}
-
-	public void setDateTime(Timestamp dateTime) {
-		this.dateTime = dateTime;
-	}
-
 	public String getComment() {
 		return comment;
 	}
@@ -81,11 +52,8 @@ public class Comment {
 		this.comment = comment;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

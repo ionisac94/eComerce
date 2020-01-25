@@ -1,34 +1,20 @@
 package com.md.demo.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Items")
 public class Item {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	@NotNull
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	public User user;
-
-	@NotNull
-	private Timestamp dateTime;
 
 	@NotNull
 	private String title;
@@ -36,17 +22,10 @@ public class Item {
 	@NotNull
 	private String description;
 
-	@Formula("select avg(r.rating) from Rating r where r.item_id = id")
+//	@Formula("select avg(r.rating) from Rating r where r.item_id = id")
 	private Double rating;
 
 	public Item() { // Default constructor for JPA
-	}
-
-	public Item(User user, Timestamp dateTime, String title, String description) {
-		this.user = user;
-		this.dateTime = dateTime;
-		this.title = title;
-		this.description = description;
 	}
 
 	public Long getId() {
@@ -55,22 +34,6 @@ public class Item {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Timestamp getDateTime() {
-		return dateTime;
-	}
-
-	public void setDateTime(Timestamp dateTime) {
-		this.dateTime = dateTime;
 	}
 
 	public String getTitle() {
@@ -97,4 +60,8 @@ public class Item {
 		this.rating = rating;
 	}
 
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

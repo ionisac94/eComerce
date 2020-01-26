@@ -25,7 +25,7 @@ public class ItemService {
 	}
 
 	public Item getItemById(Long id) {
-		LOGGER.info("About to find Item by id: " + id);
+		LOGGER.info("About to find Item from DB by id: " + id);
 
 		Optional<Item> byId = itemRepository.findById(id);
 

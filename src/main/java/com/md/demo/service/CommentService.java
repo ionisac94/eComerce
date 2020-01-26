@@ -28,7 +28,7 @@ public class CommentService {
 	}
 
 	public List<Comment> getAllComments(Item Item) {
-		LOGGER.info("About getting Item");
+		LOGGER.info("About getting comments from DB");
 
 		List<Comment> allByItem = commentRepository.findAllByItem(Item);
 

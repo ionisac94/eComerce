@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -40,5 +41,11 @@ public class CommentService {
 
 	public void deleteComment(Long id) {
 		commentRepository.deleteById(id);
+	}
+
+	public Comment findCommentById(Long id) {
+		Optional<Comment> optionalComment = commentRepository.findById(id);
+
+		return optionalComment.orElse(null);
 	}
 }

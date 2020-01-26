@@ -31,8 +31,8 @@ public class ItemController {
 	@Autowired
 	private ItemService itemService;
 
-	@GetMapping(value = "/items/{id}/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<Comment>> getComments(@PathVariable("id") Long id) {
+	@GetMapping(value = "/item/{id}/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<Comment>> getCommentsFromASpecificItem(@PathVariable("id") Long id) {
 		LOGGER.info("About getting Item by id: " + id);
 
 		Item itemById = itemService.getItemById(id);
@@ -52,18 +52,6 @@ public class ItemController {
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(allComments);
-
-	}
-
-	@DeleteMapping("comments/{id}")
-	public ResponseEntity deleteComment(@PathVariable("id") Long id) {
-		try {
-			LOGGER.info("About to delete a comment with {} id", id);
-			commentService.deleteComment(id);
-			return ResponseEntity.status(HttpStatus.OK).body("Comment deleted successfully");
-		} catch (NoSuchElementException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found");
-		}
 	}
 
 	@DeleteMapping("item/{id}")
@@ -75,8 +63,9 @@ public class ItemController {
 			LOGGER.error("Item with id {} was not found: ", id);
 			return ResponseEntity.noContent().build();
 		}
+		LOGGER.info("About to delete an Item with {} id", itemById.getId());
 		itemService.deleteComment(id);
 
-		return ResponseEntity.status(HttpStatus.OK).body("deleted");
+		return ResponseEntity.status(HttpStatus.OK).body("Item succesufuly was deleted");
 	}
 }

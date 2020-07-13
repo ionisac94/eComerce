@@ -2,7 +2,7 @@
 
 # Database structure.
 
-![](eComerce/src/main/resources/db_structure.PNG)
+![](src/main/resources/db_structure.PNG)
 
 # SQL Scripts.
 

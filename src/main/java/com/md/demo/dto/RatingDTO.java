@@ -1,20 +1,22 @@
 package com.md.demo.dto;
 
 import com.md.demo.model.Rating;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class RatingDTO {
 
-	private Long id;
+	private Integer id;
 
-	private Long itemId;
+	private Integer itemId;
 
 
 	public RatingDTO(Rating rating) {
 		this.id = rating.getId();
-		this.itemId = rating.getItem().getId();
+		this.itemId = rating.getItemId().getId();
 	}
 
 
@@ -26,21 +28,5 @@ public class RatingDTO {
 			list.add(ratingDTO);
 		}
 		return list;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
 	}
 }

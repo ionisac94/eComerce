@@ -32,7 +32,7 @@ public class ItemController {
 	private ItemService itemService;
 
 	@GetMapping(value = "/item/{id}/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<CommentDTO>> getCommentsFromASpecificItem(@PathVariable("id") Long id) {
+	public ResponseEntity<List<CommentDTO>> getCommentsFromASpecificItem(@PathVariable("id") Integer id) {
 		LOGGER.info("About getting Item by id: " + id);
 
 		Item itemById = itemService.getItemById(id);
@@ -56,7 +56,7 @@ public class ItemController {
 	}
 
 	@DeleteMapping("item/{id}")
-	public ResponseEntity deleteItemById(@PathVariable("id") Long id) {
+	public ResponseEntity deleteItemById(@PathVariable("id") Integer id) {
 
 		Item itemById = itemService.getItemById(id);
 

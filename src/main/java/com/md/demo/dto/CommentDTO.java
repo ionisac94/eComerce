@@ -1,21 +1,23 @@
 package com.md.demo.dto;
 
 import com.md.demo.model.Comment;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class CommentDTO {
 
-	private Long id;
+	private Integer id;
 
-	private Long itemId;
+	private Integer itemId;
 
 	private String comment;
 
 	public CommentDTO(Comment comment) {
 		this.id = comment.getId();
-		this.itemId = comment.getItem().getId();
+		this.itemId = comment.getItemId().getId();
 		this.comment = comment.getComment();
 	}
 
@@ -28,29 +30,5 @@ public class CommentDTO {
 			list.add(commentDTO);
 		}
 		return list;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
 	}
 }

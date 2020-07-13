@@ -24,7 +24,7 @@ public class ItemService {
 		this.itemRepository = requireNonNull(itemRepository, "itemRepository can not be null");
 	}
 
-	public Item getItemById(Long id) {
+	public Item getItemById(Integer id) {
 		LOGGER.info("About to find Item from DB by id: " + id);
 
 		Optional<Item> byId = itemRepository.findById(id);
@@ -32,7 +32,7 @@ public class ItemService {
 		return byId.orElse(null);
 	}
 
-	public void deleteComment(Long id) {
+	public void deleteComment(Integer id) {
 		itemRepository.deleteById(id);
 	}
 }

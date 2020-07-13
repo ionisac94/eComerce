@@ -25,7 +25,7 @@ public class CommentController {
 
 
 	@DeleteMapping("comment/{id}")
-	public ResponseEntity deleteCommentById(@PathVariable("id") Long id) {
+	public ResponseEntity deleteCommentById(@PathVariable("id") Integer id) {
 		try {
 			LOGGER.info("About to delete a comment with {} id", id);
 			commentService.deleteComment(id);
@@ -36,7 +36,7 @@ public class CommentController {
 	}
 
 	@GetMapping("comment/{id}")
-	public ResponseEntity<Comment> getCommentById(@PathVariable("id") Long id) {
+	public ResponseEntity<Comment> getCommentById(@PathVariable("id") Integer id) {
 		try {
 			LOGGER.info("About to get comment with {} id", id);
 			Comment commentById = commentService.findCommentById(id);

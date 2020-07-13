@@ -27,10 +27,10 @@ public class CommentService {
 		this.commentRepository = requireNonNull(commentRepository, "commentRepository can not be null");
 	}
 
-	public List<Comment> getAllComments(Item Item) {
+	public List<Comment> getAllComments(Item ItemId) {
 		LOGGER.info("About getting comments from DB");
 
-		List<Comment> allByItem = commentRepository.findAllByItem(Item);
+		List<Comment> allByItem = commentRepository.findAllByItemId(ItemId);
 
 		if (allByItem == null) {
 			return Collections.emptyList();
@@ -39,11 +39,11 @@ public class CommentService {
 		}
 	}
 
-	public void deleteComment(Long id) {
+	public void deleteComment(Integer id) {
 		commentRepository.deleteById(id);
 	}
 
-	public Comment findCommentById(Long id) {
+	public Comment findCommentById(Integer id) {
 		Optional<Comment> optionalComment = commentRepository.findById(id);
 
 		return optionalComment.orElse(null);

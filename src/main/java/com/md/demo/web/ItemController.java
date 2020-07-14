@@ -7,7 +7,6 @@ import com.md.demo.service.CommentService;
 import com.md.demo.service.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 @RestController
 public class ItemController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 
-
-	@Autowired
 	private CommentService commentService;
 
-	@Autowired
 	private ItemService itemService;
+
+	public ItemController(CommentService commentService, ItemService itemService) {
+		this.commentService = requireNonNull(commentService, "commentService is mandatory");
+		this.itemService = requireNonNull(itemService, "itemService is mandatory");
+		;
+	}
 
 	@GetMapping(value = "/item/{id}/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<CommentDTO>> getCommentsFromASpecificItem(@PathVariable("id") Integer id) {
@@ -44,7 +48,7 @@ public class ItemController {
 
 		LOGGER.info("About getting all comments from item: " + itemById);
 
-		List<Comment> allComments = commentService.getAllComments(itemById);
+		List<Comment> allComments = commentService.getAllComments(id);
 
 		List<CommentDTO> commentDTOS = CommentDTO.toCommentDTOList(allComments);
 		if (CollectionUtils.isEmpty(commentDTOS)) {

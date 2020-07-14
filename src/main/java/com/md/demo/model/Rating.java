@@ -3,10 +3,12 @@ package com.md.demo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,7 +32,8 @@ public class Rating {
 	@NotNull
 	private Double rating;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "item_id")
 	@NotNull
 	private Item itemId;

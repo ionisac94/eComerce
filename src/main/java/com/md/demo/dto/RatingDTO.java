@@ -21,7 +21,6 @@ public class RatingDTO {
 
 
 	public static List<RatingDTO> toRatingDTOList(List<Rating> ratingList) {
-
 		return ratingList.stream().map(RatingDTO::new).collect(Collectors.toList());
 	}
 }

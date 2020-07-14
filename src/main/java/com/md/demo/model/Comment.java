@@ -3,6 +3,8 @@ package com.md.demo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,9 +32,10 @@ public class Comment {
 	@NotNull
 	private String comment;
 
-	@ManyToOne(fetch = FetchType.LAZY) // does the same as @OnDelete(action = OnDeleteAction.CASCADE)
+	@ManyToOne(fetch = FetchType.LAZY)
 //	@ManyToOne
 //	@OnDelete(action = OnDeleteAction.CASCADE) delete only Comment row from BD and not Item
+	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "item_id")
 	@NotNull
 	private Item itemId;

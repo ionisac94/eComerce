@@ -23,7 +23,11 @@ public class CommentDTO {
 
 
 	public static List<CommentDTO> toCommentDTOList(List<Comment> commentList) {
-
 		return commentList.stream().map(CommentDTO::new).collect(Collectors.toList());
+	}
+
+	public static CommentDTO toCommentDTO(Comment comment) {
+		CommentDTO commentDTO = new CommentDTO(comment);
+		return commentDTO;
 	}
 }

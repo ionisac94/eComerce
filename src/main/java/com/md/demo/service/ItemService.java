@@ -4,7 +4,6 @@ import com.md.demo.model.Item;
 import com.md.demo.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,10 +15,8 @@ public class ItemService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ItemService.class);
 
-
 	private ItemRepository itemRepository;
 
-	@Autowired
 	public ItemService(ItemRepository itemRepository) {
 		this.itemRepository = requireNonNull(itemRepository, "itemRepository can not be null");
 	}

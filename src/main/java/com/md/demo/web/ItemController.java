@@ -1,5 +1,6 @@
 package com.md.demo.web;
 
+import com.md.demo.dto.CommentDTO;
 import com.md.demo.model.Comment;
 import com.md.demo.model.Item;
 import com.md.demo.service.CommentService;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 public class ItemController {
@@ -32,7 +32,7 @@ public class ItemController {
 	private ItemService itemService;
 
 	@GetMapping(value = "/item/{id}/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<Comment>> getCommentsFromASpecificItem(@PathVariable("id") Long id) {
+	public ResponseEntity<List<CommentDTO>> getCommentsFromASpecificItem(@PathVariable("id") Integer id) {
 		LOGGER.info("About getting Item by id: " + id);
 
 		Item itemById = itemService.getItemById(id);
@@ -42,20 +42,21 @@ public class ItemController {
 			return ResponseEntity.noContent().build();
 		}
 
-		LOGGER.info("About getting allComments by itemById: " + itemById);
+		LOGGER.info("About getting all comments from item: " + itemById);
 
 		List<Comment> allComments = commentService.getAllComments(itemById);
 
-		if (CollectionUtils.isEmpty(allComments)) {
-			LOGGER.error("Empty Collection was found  `{}`", allComments.size());
+		List<CommentDTO> commentDTOS = CommentDTO.toCommentDTOList(allComments);
+		if (CollectionUtils.isEmpty(commentDTOS)) {
+			LOGGER.error("Empty Collection was found with {} entities", commentDTOS.size());
 			return ResponseEntity.noContent().build();
 		}
 
-		return ResponseEntity.status(HttpStatus.OK).body(allComments);
+		return ResponseEntity.status(HttpStatus.OK).body(commentDTOS);
 	}
 
 	@DeleteMapping("item/{id}")
-	public ResponseEntity deleteItemById(@PathVariable("id") Long id) {
+	public ResponseEntity deleteItemById(@PathVariable("id") Integer id) {
 
 		Item itemById = itemService.getItemById(id);
 

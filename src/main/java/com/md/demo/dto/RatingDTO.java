@@ -3,8 +3,8 @@ package com.md.demo.dto;
 import com.md.demo.model.Rating;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class RatingDTO {
@@ -22,11 +22,6 @@ public class RatingDTO {
 
 	public static List<RatingDTO> toRatingDTOList(List<Rating> ratingList) {
 
-		List<RatingDTO> list = new ArrayList<>();
-		for (Rating rating : ratingList) {
-			RatingDTO ratingDTO = new RatingDTO(rating);
-			list.add(ratingDTO);
-		}
-		return list;
+		return ratingList.stream().map(RatingDTO::new).collect(Collectors.toList());
 	}
 }

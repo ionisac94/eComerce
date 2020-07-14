@@ -3,8 +3,8 @@ package com.md.demo.dto;
 import com.md.demo.model.Comment;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class CommentDTO {
@@ -24,11 +24,6 @@ public class CommentDTO {
 
 	public static List<CommentDTO> toCommentDTOList(List<Comment> commentList) {
 
-		List<CommentDTO> list = new ArrayList<>();
-		for (Comment comment1 : commentList) {
-			CommentDTO commentDTO = new CommentDTO(comment1);
-			list.add(commentDTO);
-		}
-		return list;
+		return commentList.stream().map(CommentDTO::new).collect(Collectors.toList());
 	}
 }

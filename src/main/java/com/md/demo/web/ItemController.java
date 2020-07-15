@@ -17,6 +17,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -98,9 +100,19 @@ public class ItemController {
 			LOGGER.error("Item with id {} was not found: ", id);
 			return ResponseEntity.noContent().build();
 		}
-		LOGGER.info("About to delete an Item with {} id", itemById.getId());
-		itemService.deleteItem(id);
+		boolean itemDeleted = itemService.isItemDeleted(id);
+
+		LOGGER.info("Item with {} id was deleted :", itemById.getId(), itemDeleted);
 
 		return ResponseEntity.status(HttpStatus.OK).body("Item succesufuly was deleted");
+	}
+
+	@PostMapping("/items/{itemId}/addComment")
+	public ResponseEntity<?> addACommentToAnItem(@PathVariable("itemId") Integer itemId,
+												 @RequestParam("comment") String comment) {
+
+		Comment commentToSave = commentService.addComment(itemId, comment);
+		CommentDTO commentDTO = new CommentDTO(commentToSave);
+		return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
 	}
 }

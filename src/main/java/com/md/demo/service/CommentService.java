@@ -10,5 +10,7 @@ public interface CommentService {
 
 	Comment findCommentById(Integer id);
 
-	void deleteComment(Integer id);
+	boolean isCommentDeleted(Integer id);
+
+	Comment addComment(Integer itemId, String comment);
 }

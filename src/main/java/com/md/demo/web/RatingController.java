@@ -1,7 +1,6 @@
 package com.md.demo.web;
 
 import com.md.demo.dto.RatingDTO;
-import com.md.demo.exception.NoSuchRatingExistException;
 import com.md.demo.model.Rating;
 import com.md.demo.service.RatingService;
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @RestController
@@ -28,27 +26,19 @@ public class RatingController {
 	}
 
 	@GetMapping("rating/{id}")
-	public ResponseEntity<RatingDTO> getRatingById(@PathVariable("id") Integer id) {
-		try {
-			LOGGER.info("About to get rating with {} id", id);
-			Rating ratingById = ratingService.findRatingById(id);
-			RatingDTO ratingDTO = RatingDTO.toRatingDTO(ratingById);
-			return ResponseEntity.status(HttpStatus.OK).body(ratingDTO);
-		} catch (NoSuchRatingExistException e) {
-			LOGGER.error("Rating with id {} was not found! {}", id, e.getMessage());
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+	public ResponseEntity<?> getRatingById(@PathVariable("id") Integer id) {
+		LOGGER.info("About to get rating with {} id", id);
+		Rating ratingById = ratingService.findRatingById(id);
+		LOGGER.info("Rating was found successfully");
+		RatingDTO ratingDTO = RatingDTO.toRatingDTO(ratingById);
+		return ResponseEntity.status(HttpStatus.OK).body(ratingDTO);
 	}
 
 	@DeleteMapping("rating/{id}")
-	public ResponseEntity deleteRatingById(@PathVariable("id") Integer id) {
-		try {
-			LOGGER.info("About to delete a rating with {} id", id);
-			ratingService.deleteRating(id);
-			return ResponseEntity.status(HttpStatus.OK).body("Rating deleted successfully");
-		} catch (NoSuchRatingExistException e) {
-			LOGGER.error("Rating with id {} was not found! {}", id, e.getMessage());
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No such rating was found in DB");
-		}
+	public ResponseEntity<?> deleteRatingById(@PathVariable("id") Integer id) {
+		LOGGER.info("About to delete a rating with {} id", id);
+		boolean ratingDeleted = ratingService.isRatingDeleted(id);
+		LOGGER.info("Rating with {} id was deleted: ", id, ratingDeleted);
+		return ResponseEntity.status(HttpStatus.OK).body("Rating was deleted successfully");
 	}
 }

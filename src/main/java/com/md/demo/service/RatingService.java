@@ -10,5 +10,5 @@ public interface RatingService {
 
 	Rating findRatingById(Integer id);
 
-	void deleteRating(Integer id);
+	boolean isRatingDeleted(Integer id);
 }

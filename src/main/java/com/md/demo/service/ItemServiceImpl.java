@@ -1,5 +1,6 @@
 package com.md.demo.service;
 
+import com.md.demo.exception.NoSuchItemExistException;
 import com.md.demo.model.Item;
 import com.md.demo.repository.ItemRepository;
 import org.slf4j.Logger;
@@ -27,11 +28,18 @@ public class ItemServiceImpl implements ItemService {
 	public Item getItemById(Integer id) {
 		LOGGER.info("About to find Item from DB by id: " + id);
 		Optional<Item> byId = itemRepository.findById(id);
-		return byId.orElse(null);
+		return byId.orElseThrow(() -> new NoSuchItemExistException("No such item in DB"));
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public void deleteItem(Integer id) {
-		itemRepository.deleteById(id);
+	public boolean isItemDeleted(Integer id) {
+		boolean itemIsDeleted = false;
+		LOGGER.info("About to delete an Item from DB by id: " + id);
+		if (itemIsDeleted == false) {
+			itemRepository.deleteById(id);
+			return itemIsDeleted = true;
+		} else {
+			return false;
+		}
 	}
 }

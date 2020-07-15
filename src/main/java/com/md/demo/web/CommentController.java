@@ -1,7 +1,6 @@
 package com.md.demo.web;
 
 import com.md.demo.dto.CommentDTO;
-import com.md.demo.exception.NoSuchCommentExistException;
 import com.md.demo.model.Comment;
 import com.md.demo.service.CommentService;
 import org.slf4j.Logger;
@@ -27,27 +26,20 @@ public class CommentController {
 	}
 
 	@GetMapping("comment/{id}")
-	public ResponseEntity<CommentDTO> getCommentById(@PathVariable("id") Integer id) {
-		try {
-			LOGGER.info("About to get comment with {} id", id);
-			Comment commentById = commentService.findCommentById(id);
-			CommentDTO commentDTO = CommentDTO.toCommentDTO(commentById);
-			return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
-		} catch (NoSuchCommentExistException e) {
-			LOGGER.error("Comment with id {} was not found! {}", id, e.getMessage());
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+	public ResponseEntity<?> getCommentById(@PathVariable("id") Integer id) {
+		LOGGER.info("About to get a comment from DB with {} id", id);
+		Comment commentById = commentService.findCommentById(id);
+		LOGGER.info("Comment was found successfully");
+		CommentDTO commentDTO = CommentDTO.toCommentDTO(commentById);
+		return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
+
 	}
 
 	@DeleteMapping("comment/{id}")
 	public ResponseEntity<String> deleteCommentById(@PathVariable("id") Integer id) {
-		try {
-			LOGGER.info("About to delete a comment with {} id", id);
-			commentService.deleteComment(id);
-			return ResponseEntity.status(HttpStatus.OK).body("Comment deleted successfully");
-		} catch (NoSuchCommentExistException e) {
-			LOGGER.error("Comment with id {} was not found! {}", id, e.getMessage());
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No such comment was found in DB");
-		}
+		LOGGER.info("About to delete a comment with {} id", id);
+		boolean commentIsDeleted = commentService.isCommentDeleted(id);
+		LOGGER.info("Comment with {} id was deleted: ", id, commentIsDeleted);
+		return ResponseEntity.status(HttpStatus.OK).body("Comment deleted successfully");
 	}
 }

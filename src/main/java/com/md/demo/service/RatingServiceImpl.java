@@ -45,10 +45,13 @@ public class RatingServiceImpl implements RatingService {
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public void deleteRating(Integer id) {
+	public boolean isRatingDeleted(Integer id) {
+		boolean ratingIsDeleted;
 		Rating ratingById = findRatingById(id);
 		if (ratingById.getId() != null) {
 			ratingRepository.deleteById(id);
+			LOGGER.info("Rating was deleted successfully");
+			return ratingIsDeleted = true;
 		} else {
 			throw new NoSuchRatingExistException("No such rating in DB");
 		}

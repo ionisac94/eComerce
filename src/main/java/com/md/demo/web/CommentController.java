@@ -1,8 +1,8 @@
 package com.md.demo.web;
 
 import com.md.demo.dto.CommentDTO;
+import com.md.demo.exception.NoSuchCommentExistException;
 import com.md.demo.model.Comment;
-import com.md.demo.model.Item;
 import com.md.demo.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.NoSuchElementException;
 
 import static java.util.Objects.requireNonNull;
 
@@ -28,17 +26,6 @@ public class CommentController {
 		this.commentService = requireNonNull(commentService, "commentService is mandatory");
 	}
 
-	@DeleteMapping("comment/{id}")
-	public ResponseEntity deleteCommentById(@PathVariable("id") Integer id) {
-		try {
-			LOGGER.info("About to delete a comment with {} id", id);
-			commentService.deleteComment(id);
-			return ResponseEntity.status(HttpStatus.OK).body("Comment deleted successfully");
-		} catch (NoSuchElementException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found");
-		}
-	}
-
 	@GetMapping("comment/{id}")
 	public ResponseEntity<CommentDTO> getCommentById(@PathVariable("id") Integer id) {
 		try {
@@ -46,9 +33,21 @@ public class CommentController {
 			Comment commentById = commentService.findCommentById(id);
 			CommentDTO commentDTO = CommentDTO.toCommentDTO(commentById);
 			return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
-		} catch (NoSuchElementException e) {
+		} catch (NoSuchCommentExistException e) {
+			LOGGER.error("Comment with id {} was not found! {}", id, e.getMessage());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
 
+	@DeleteMapping("comment/{id}")
+	public ResponseEntity<String> deleteCommentById(@PathVariable("id") Integer id) {
+		try {
+			LOGGER.info("About to delete a comment with {} id", id);
+			commentService.deleteComment(id);
+			return ResponseEntity.status(HttpStatus.OK).body("Comment deleted successfully");
+		} catch (NoSuchCommentExistException e) {
+			LOGGER.error("Comment with id {} was not found! {}", id, e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No such comment was found in DB");
+		}
+	}
 }

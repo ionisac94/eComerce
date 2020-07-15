@@ -21,7 +21,6 @@ public class CommentDTO {
 		this.comment = comment.getComment();
 	}
 
-
 	public static List<CommentDTO> toCommentDTOList(List<Comment> commentList) {
 		return commentList.stream().map(CommentDTO::new).collect(Collectors.toList());
 	}

@@ -24,22 +24,26 @@ public class ItemServiceImpl implements ItemService {
 		this.itemRepository = requireNonNull(itemRepository, "itemRepository can not be null");
 	}
 
-	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public Item getItemById(Integer id) {
 		LOGGER.info("About to find Item from DB by id: " + id);
 		Optional<Item> byId = itemRepository.findById(id);
+
 		return byId.orElseThrow(() -> new NoSuchItemExistException("No such item in DB"));
 	}
 
+	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public boolean isItemDeleted(Integer id) {
 		boolean itemIsDeleted = false;
+		Item itemById = getItemById(id);
 		LOGGER.info("About to delete an Item from DB by id: " + id);
-		if (itemIsDeleted == false) {
+		if (itemById.getAverageRating() != null) {
 			itemRepository.deleteById(id);
 			return itemIsDeleted = true;
 		} else {
-			return false;
+			throw  new NoSuchItemExistException("No such Item in DB!");
 		}
 	}
 }

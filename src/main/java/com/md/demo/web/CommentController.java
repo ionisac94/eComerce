@@ -25,21 +25,20 @@ public class CommentController {
 		this.commentService = requireNonNull(commentService, "commentService is mandatory");
 	}
 
-	@GetMapping("comment/{id}")
+	@GetMapping("/comment/{id}")
 	public ResponseEntity<?> getCommentById(@PathVariable("id") Integer id) {
-		LOGGER.info("About to get a comment from DB with {} id", id);
+		LOGGER.info("About to get a Comment from DB with id: {}", id);
 		Comment commentById = commentService.findCommentById(id);
-		LOGGER.info("Comment was found successfully");
+		LOGGER.info("Comment was found successfully!");
 		CommentDTO commentDTO = CommentDTO.toCommentDTO(commentById);
 		return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
-
 	}
 
-	@DeleteMapping("comment/{id}")
+	@DeleteMapping("/comment/{id}")
 	public ResponseEntity<String> deleteCommentById(@PathVariable("id") Integer id) {
-		LOGGER.info("About to delete a comment with {} id", id);
+		LOGGER.info("About to delete a Comment with id: {}", id);
 		boolean commentIsDeleted = commentService.isCommentDeleted(id);
 		LOGGER.info("Comment with {} id was deleted: ", id, commentIsDeleted);
-		return ResponseEntity.status(HttpStatus.OK).body("Comment deleted successfully");
+		return ResponseEntity.status(HttpStatus.OK).body("Comment was deleted successfully");
 	}
 }

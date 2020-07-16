@@ -15,4 +15,7 @@ public interface RatingRepository extends CrudRepository<Rating, Integer> {
 
 	@Query("SELECT averageRating FROM Item item WHERE item.id = :itemId")
 	Double getAverageRatingByItemId(Integer itemId);
+
+	@Query("SELECT AVG(r.value) FROM Rating r")
+	Double getAverageRating();
 }

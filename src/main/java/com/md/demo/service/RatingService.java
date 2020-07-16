@@ -14,6 +14,8 @@ public interface RatingService {
 
 	Double getAverageRatingForASpecificItem(Integer itemId);
 
+	Double getAverageRating();
+
 	Rating addRating(Integer itemId, Double value);
 
 }

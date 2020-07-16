@@ -29,7 +29,8 @@ public class RatingServiceImpl implements RatingService {
 		this.itemService = Objects.requireNonNull(itemService, "itemService is mandatory");
 	}
 
-	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public List<Rating> getAllRatingsForASpecificItem(Integer itemId) {
 		LOGGER.info("About getting comments from DB");
 
@@ -42,36 +43,50 @@ public class RatingServiceImpl implements RatingService {
 		}
 	}
 
-	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public Double getAverageRatingForASpecificItem(Integer itemId) {
 		LOGGER.info("About getting rating from DB");
 
 		return ratingRepository.getAverageRatingByItemId(itemId);
 	}
 
-	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public Rating findRatingById(Integer id) {
 		Optional<Rating> optionalRating = ratingRepository.findById(id);
-		return optionalRating.orElseThrow(() -> new NoSuchRatingExistException("No such rating in DB"));
+		LOGGER.info("Fetched a Rating from DB: {}", optionalRating);
+
+		return optionalRating.orElseThrow(() -> new NoSuchRatingExistException("No such Rating in DB!"));
 	}
 
+	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public boolean isRatingDeleted(Integer id) {
 		boolean ratingIsDeleted;
+		LOGGER.warn("Checking if Rating with id: {} exists in DB", id);
 		Rating ratingById = findRatingById(id);
+		LOGGER.info("Rating with id {} exists in DB", id);
 		if (ratingById.getId() != null) {
 			ratingRepository.deleteById(id);
-			LOGGER.info("Rating was deleted successfully");
 			return ratingIsDeleted = true;
 		} else {
-			throw new NoSuchRatingExistException("No such rating in DB");
+			throw new NoSuchRatingExistException("No such Rating in DB!");
 		}
 	}
 
 	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public Rating addRating(Integer itemId, Double value) {
 		Item itemById = itemService.getItemById(itemId);
 		Rating newRating = Rating.builder().value(value).itemId(itemById).build();
+
 		return ratingRepository.save(newRating);
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+	public Double getAverageRating() {
+		return ratingRepository.getAverageRating();
 	}
 }

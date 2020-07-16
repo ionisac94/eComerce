@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -39,10 +38,7 @@ public class Comment {
 	@NotNull
 	private Integer version;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-//	@ManyToOne
-//	@OnDelete(action = OnDeleteAction.CASCADE) delete only Comment row from BD and not Item
-	@Cascade(CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "itemId")
 	@NotNull
 	private Item itemId;

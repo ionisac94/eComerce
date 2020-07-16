@@ -25,20 +25,20 @@ public class RatingController {
 		this.ratingService = Objects.requireNonNull(ratingService, "ratingService is mandatory");
 	}
 
-	@GetMapping("rating/{id}")
+	@GetMapping("/rating/{id}")
 	public ResponseEntity<?> getRatingById(@PathVariable("id") Integer id) {
-		LOGGER.info("About to get rating with {} id", id);
+		LOGGER.info("About to get a Rating from DB with id: {}", id);
 		Rating ratingById = ratingService.findRatingById(id);
-		LOGGER.info("Rating was found successfully");
+		LOGGER.info("Rating was found successfully!");
 		RatingDTO ratingDTO = RatingDTO.toRatingDTO(ratingById);
 		return ResponseEntity.status(HttpStatus.OK).body(ratingDTO);
 	}
 
-	@DeleteMapping("rating/{id}")
+	@DeleteMapping("/rating/{id}")
 	public ResponseEntity<?> deleteRatingById(@PathVariable("id") Integer id) {
-		LOGGER.info("About to delete a rating with {} id", id);
+		LOGGER.info("About to delete a Rating with id: {}", id);
 		boolean ratingDeleted = ratingService.isRatingDeleted(id);
 		LOGGER.info("Rating with {} id was deleted: ", id, ratingDeleted);
-		return ResponseEntity.status(HttpStatus.OK).body("Rating was deleted successfully");
+		return ResponseEntity.status(HttpStatus.OK).body("Rating was deleted successfully!");
 	}
 }

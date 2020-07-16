@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,13 +33,17 @@ public class Comment {
 	private Integer id;
 
 	@NotNull
-	private String comment;
+	private String content;
+
+	@Version
+	@NotNull
+	private Integer version;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 //	@ManyToOne
 //	@OnDelete(action = OnDeleteAction.CASCADE) delete only Comment row from BD and not Item
 	@Cascade(CascadeType.ALL)
-	@JoinColumn(name = "item_id")
+	@JoinColumn(name = "itemId")
 	@NotNull
 	private Item itemId;
 }

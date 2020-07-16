@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface RatingRepository extends CrudRepository<Rating, Integer> {
 
-	@Query("SELECT r FROM Rating r JOIN r.itemId item where item.id = :id")
+	@Query("SELECT r FROM Rating r JOIN r.itemId item WHERE item.id = :id")
 	List<Rating> findAllRatingByItemId(Integer id);
+
+	@Query("SELECT averageRating FROM Item item WHERE item.id = :itemId")
+	Double getAverageRatingByItemId(Integer itemId);
 }

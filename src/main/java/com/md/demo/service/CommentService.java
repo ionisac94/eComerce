@@ -13,4 +13,6 @@ public interface CommentService {
 	boolean isCommentDeleted(Integer id);
 
 	Comment addComment(Integer itemId, String comment);
+
+	Comment modifyComment(Integer itemId, Integer commentId, String comment);
 }

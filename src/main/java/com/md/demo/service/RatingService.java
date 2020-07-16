@@ -6,9 +6,14 @@ import java.util.List;
 
 public interface RatingService {
 
-	List<Rating> getAllRatingsForASpecificItem(Integer itemId);
-
 	Rating findRatingById(Integer id);
 
 	boolean isRatingDeleted(Integer id);
+
+	List<Rating> getAllRatingsForASpecificItem(Integer itemId);
+
+	Double getAverageRatingForASpecificItem(Integer itemId);
+
+	Rating addRating(Integer itemId, Double value);
+
 }

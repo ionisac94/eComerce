@@ -18,7 +18,7 @@ public class CommentDTO {
 	public CommentDTO(Comment comment) {
 		this.id = comment.getId();
 		this.itemId = comment.getItemId().getId();
-		this.comment = comment.getComment();
+		this.comment = comment.getContent();
 	}
 
 	public static List<CommentDTO> toCommentDTOList(List<Comment> commentList) {

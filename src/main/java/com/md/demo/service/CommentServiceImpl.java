@@ -4,6 +4,7 @@ import com.md.demo.exception.NoSuchCommentExistException;
 import com.md.demo.model.Comment;
 import com.md.demo.model.Item;
 import com.md.demo.repository.CommentRepository;
+import com.md.demo.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -23,10 +25,13 @@ public class CommentServiceImpl implements CommentService {
 
 	private CommentRepository commentRepository;
 
+	private ItemRepository itemRepository;
+
 	private ItemService itemService;
 
-	public CommentServiceImpl(CommentRepository commentRepository, ItemService itemService) {
+	public CommentServiceImpl(CommentRepository commentRepository, ItemService itemService, ItemRepository itemRepository) {
 		this.commentRepository = requireNonNull(commentRepository, "commentRepository can not be null");
+		this.itemRepository = requireNonNull(itemRepository, "itemRepository ca not be null");
 		this.itemService = requireNonNull(itemService, "itemService can not be null");
 	}
 
@@ -66,8 +71,25 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Comment addComment(Integer itemId, String comment) {
 		Item itemById = itemService.getItemById(itemId);
-		Comment newComment = Comment.builder().comment(comment).itemId(itemById).build();
+		Comment newComment = Comment.builder().content(comment).itemId(itemById).build();
 		commentRepository.save(newComment);
 		return newComment;
+	}
+
+	@Override
+	public Comment modifyComment(Integer itemId, Integer commentId, String newContent) {
+		List<Comment> commentsByItemId = commentRepository.findAllCommentsByItemId(itemId);
+
+		List<Comment> collect = commentsByItemId
+				.stream()
+				.filter(e -> e.getId() == commentId)
+				.collect(Collectors.toList());
+		Comment commentToUpdate = collect.get(0);
+
+		String actualContent = commentToUpdate.getContent();
+		actualContent = newContent;
+		commentToUpdate.setContent(actualContent);
+		commentRepository.save(commentToUpdate);
+		return commentToUpdate;
 	}
 }

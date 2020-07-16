@@ -25,8 +25,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> handleNoSuchItemExistException(NoSuchItemExistException ex, WebRequest request) {
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
-		body.put("message", "Sorry, No such rating!");
-		LOGGER.error("An error was occurred :" + ex.getMessage());
+		body.put("message", "Sorry, No such item!");
+		LOGGER.error("An error was occurred: " + ex.getMessage());
 		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 	}
 
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("message", "Sorry, No such rating!");
-		LOGGER.error("An error was occurred :" + ex.getMessage());
+		LOGGER.error("An error was occurred: " + ex.getMessage());
 		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 	}
 
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("message", "Sorry, No such comment!");
-		LOGGER.error("An error was occurred :" + ex.getMessage());
+		LOGGER.error("An error was occurred: " + ex.getMessage());
 		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 	}
 }

@@ -1,6 +1,7 @@
 package com.md.demo.service;
 
 import com.md.demo.exception.NoSuchRatingExistException;
+import com.md.demo.model.Item;
 import com.md.demo.model.Rating;
 import com.md.demo.repository.RatingRepository;
 import org.slf4j.Logger;
@@ -21,8 +22,11 @@ public class RatingServiceImpl implements RatingService {
 
 	private RatingRepository ratingRepository;
 
-	public RatingServiceImpl(RatingRepository ratingRepository) {
+	private ItemService itemService;
+
+	public RatingServiceImpl(RatingRepository ratingRepository, ItemService itemService) {
 		this.ratingRepository = Objects.requireNonNull(ratingRepository, "ratingRepository is mandatory");
+		this.itemService = Objects.requireNonNull(itemService, "itemService is mandatory");
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)
@@ -36,6 +40,13 @@ public class RatingServiceImpl implements RatingService {
 		} else {
 			return ratingsByItemId;
 		}
+	}
+
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public Double getAverageRatingForASpecificItem(Integer itemId) {
+		LOGGER.info("About getting rating from DB");
+
+		return ratingRepository.getAverageRatingByItemId(itemId);
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)
@@ -55,5 +66,12 @@ public class RatingServiceImpl implements RatingService {
 		} else {
 			throw new NoSuchRatingExistException("No such rating in DB");
 		}
+	}
+
+	@Override
+	public Rating addRating(Integer itemId, Double value) {
+		Item itemById = itemService.getItemById(itemId);
+		Rating newRating = Rating.builder().value(value).itemId(itemById).build();
+		return ratingRepository.save(newRating);
 	}
 }

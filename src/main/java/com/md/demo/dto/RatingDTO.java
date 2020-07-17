@@ -18,7 +18,7 @@ public class RatingDTO {
 	public RatingDTO(Rating rating) {
 		this.id = rating.getId();
 		this.itemId = rating.getItemId().getId();
-		this.rating = rating.getRating();
+		this.rating = rating.getValue();
 	}
 
 	public static List<RatingDTO> toRatingDTOList(List<Rating> ratingList) {

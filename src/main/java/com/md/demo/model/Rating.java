@@ -1,11 +1,11 @@
 package com.md.demo.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Rating {
 
 	@Id
@@ -30,11 +31,10 @@ public class Rating {
 	private Integer id;
 
 	@NotNull
-	private Double rating;
+	private Double value;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@Cascade(CascadeType.ALL)
-	@JoinColumn(name = "item_id")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "itemId")
 	@NotNull
 	private Item itemId;
 }

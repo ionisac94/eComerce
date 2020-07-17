@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -30,6 +31,6 @@ public class Item {
 	@NotNull
 	private String description;
 
-	//	@Formula("select avg(r.rating) from Rating r where r.item_id = id")
-	private Double rating;
+	@Column(name = "averageRating")
+	private Double averageRating;
 }

@@ -6,5 +6,5 @@ public interface ItemService {
 
 	Item getItemById(Integer id);
 
-	void deleteItem(Integer id);
+	boolean isItemDeleted(Integer id);
 }

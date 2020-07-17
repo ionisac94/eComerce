@@ -1,5 +1,6 @@
 package com.md.demo.web.exeptionhandler;
 
+import com.md.demo.exception.NoImageToUploadException;
 import com.md.demo.exception.NoSuchCommentExistException;
 import com.md.demo.exception.NoSuchItemExistException;
 import com.md.demo.exception.NoSuchRatingExistException;
@@ -44,6 +45,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("message", "Sorry, No such comment!");
+		LOGGER.error("An error was occurred: " + ex.getMessage());
+		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(NoImageToUploadException.class)
+	public ResponseEntity<?> handleNoNoImageToUploadException(NoImageToUploadException ex, WebRequest request) {
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", "Hey, Select an image to upload!");
 		LOGGER.error("An error was occurred: " + ex.getMessage());
 		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 	}

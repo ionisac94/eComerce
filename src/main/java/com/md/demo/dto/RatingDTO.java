@@ -11,7 +11,7 @@ public class RatingDTO {
 
 	private Integer id;
 
-	private Double rating;
+	private Integer rating;
 
 	private Integer itemId;
 

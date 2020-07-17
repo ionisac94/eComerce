@@ -11,33 +11,32 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Comment {
+@Entity
+public class Image {
 
 	@Id
-	@TableGenerator(name = "Comment_Gen",
+	@TableGenerator(name = "Image_Gen",
 			table = "ID_GEN",
 			pkColumnName = "GEN_NAME",
 			valueColumnName = "GEN_VALUE")
-	@GeneratedValue(generator = "Comment_Gen")
+	@GeneratedValue(generator = "Image_Gen")
 	private Integer id;
 
 	@NotNull
-	private String content;
+	private String name;
 
-	@Version
-	@NotNull
-	private Integer version;
+	@Lob
+	private byte[] imageData;
 
 	@NotNull
 	private LocalDateTime datePosted;
@@ -46,5 +45,5 @@ public class Comment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "itemId")
 	@NotNull
-	private Item itemId;
+	public Item item;
 }

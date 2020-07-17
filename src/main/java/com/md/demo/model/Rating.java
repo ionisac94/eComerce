@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -31,8 +32,12 @@ public class Rating {
 	private Integer id;
 
 	@NotNull
-	private Double value;
+	private Integer value;
 
+	@NotNull
+	private LocalDateTime datePosted;
+
+	//TODO do not forget to remember about Foreign Key Options from DB if u want to delete/update a parent row
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "itemId")
 	@NotNull

@@ -77,7 +77,7 @@ public class RatingServiceImpl implements RatingService {
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
-	public Rating addRating(Integer itemId, Double value) {
+	public Rating addRating(Integer itemId, Integer value) {
 		Item itemById = itemService.getItemById(itemId);
 		Rating newRating = Rating.builder().value(value).itemId(itemById).build();
 

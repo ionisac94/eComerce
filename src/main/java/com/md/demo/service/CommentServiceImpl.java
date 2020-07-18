@@ -79,6 +79,12 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public Comment createNewComment(Comment comment) {
+		return commentRepository.save(comment);
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public Comment modifyComment(Integer itemId, Integer commentId, String newContent) {
 		List<Comment> commentsByItemId = commentRepository.findAllCommentsByItemId(itemId);
 

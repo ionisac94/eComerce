@@ -58,7 +58,7 @@ public class ItemController {
 	public ResponseEntity deleteItemById(@PathVariable("id") Integer id) {
 		LOGGER.info("About to delete an Item by id: " + id);
 		boolean itemDeleted = itemService.isItemDeleted(id);
-		LOGGER.info("Item with {} id was deleted :", itemDeleted);
+		LOGGER.warn("Item with id {} was deleted: {}", id, itemDeleted);
 
 		return ResponseEntity.status(HttpStatus.OK).body("Item successfully was deleted");
 	}
@@ -108,9 +108,9 @@ public class ItemController {
 
 	@PostMapping("/items/{itemId}/addRating")
 	public ResponseEntity<?> addRatingToItem(@PathVariable("itemId") Integer itemId,
-											 @RequestParam("rating") Double rating) {
+											 @RequestParam("newRating") Integer newRating) {
 
-		Rating ratingToSave = ratingService.addRating(itemId, rating);
+		Rating ratingToSave = ratingService.addRating(itemId, newRating);
 		RatingDTO ratingDTO = new RatingDTO(ratingToSave);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ratingDTO);

@@ -19,6 +19,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-maven-plugin.version>2.0.5.RELEASE</spring-boot-maven-plugin.version>
 		<swagger.version>2.8.0</swagger.version>
 		<mysql-connector-java.version>8.0.19</mysql-connector-java.version>
@@ -40,6 +42,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>compile</scope>
+<!--			when you want to deploy the spring boot app as a war into a dedicated tomcat container do not forget to change maven scope to <provided>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -75,6 +83,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>ecomerce</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

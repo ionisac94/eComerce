@@ -75,6 +75,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>eComerce</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

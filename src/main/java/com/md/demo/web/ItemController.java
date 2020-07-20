@@ -46,8 +46,8 @@ public class ItemController {
 	@GetMapping("/item/{id}")
 	public ResponseEntity<?> getItemById(@PathVariable("id") Integer id) {
 		LOGGER.info("About to get an Item by id: " + id);
-		Double averageRating = ratingService.getAverageRating();
 		Item itemById = itemService.getItemById(id);
+		Double averageRating = ratingService.getAverageRating(itemById);
 		itemById.setAverageRating(averageRating);
 		ItemDTO itemDTO = ItemDTO.toItemDTO(itemById);
 

@@ -5,4 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageService {
 	Image createNewImage(MultipartFile imageData, Integer itemId);
+
+	Image getImageById(Integer id);
+
+	boolean isImageDeleted(Integer imageId);
 }

@@ -45,5 +45,5 @@ public class Image {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "itemId")
 	@NotNull
-	public Item item;
+	private Item item;
 }

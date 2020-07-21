@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static java.util.Objects.requireNonNull;
 
 @RestController
+@RequestMapping("/comment")
 public class CommentController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
@@ -27,28 +31,40 @@ public class CommentController {
 		this.commentService = requireNonNull(commentService, "commentService is mandatory");
 	}
 
-	@GetMapping("/comment/{id}")
-	public ResponseEntity<?> getCommentById(@PathVariable("id") Integer id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getComment(@PathVariable("id") Integer id) {
 		LOGGER.info("About to get a Comment from DB with id: {}", id);
 		Comment commentById = commentService.findCommentById(id);
 		LOGGER.info("Comment was found successfully!");
-		CommentDTO commentDTO = CommentDTO.toCommentDTO(commentById);
+		CommentDTO commentDTO = new CommentDTO(commentById);
+
 		return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
 	}
 
-	@DeleteMapping("/comment/{id}")
-	public ResponseEntity<String> deleteCommentById(@PathVariable("id") Integer id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteComment(@PathVariable("id") Integer id) {
 		LOGGER.info("About to delete a Comment with id: {}", id);
 		boolean commentIsDeleted = commentService.isCommentDeleted(id);
-		LOGGER.info("Comment with {} id was deleted: ", id, commentIsDeleted);
+		LOGGER.info("Comment with id {} was deleted successfully ", id, commentIsDeleted);
+
 		return ResponseEntity.status(HttpStatus.OK).body("Comment was deleted successfully");
 	}
 
-	@PostMapping("/comment/createnewcomment")
+	@PostMapping("/createcomment")
 	public ResponseEntity<?> createNewComment(@RequestBody Comment newComment) {
-		Comment newCommentCreated = commentService.createNewComment(newComment);
-
+		Comment newCommentCreated = commentService.createComment(newComment);
 		CommentDTO commentDTO = new CommentDTO(newCommentCreated);
+		LOGGER.info("Comment was created successfully");
+
 		return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
+	}
+
+	@PutMapping("/updatecomment/{commentId}")
+	public ResponseEntity<?> updateComment(@RequestParam String newContent, @PathVariable Integer commentId) {
+		LOGGER.info("About to update content field for a Comment with id: {}", commentId);
+		commentService.updateComment(newContent, commentId);
+		LOGGER.info("Comment with id {} was updated successfully", commentId);
+
+		return ResponseEntity.status(HttpStatus.OK).body("Comment was updated successfully");
 	}
 }

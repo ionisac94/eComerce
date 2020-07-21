@@ -32,7 +32,7 @@ public class RatingServiceImpl implements RatingService {
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public List<Rating> getAllRatingsForASpecificItem(Integer itemId) {
-		LOGGER.info("About getting comments from DB");
+		LOGGER.info("About getting all comments from DB");
 
 		List<Rating> ratingsByItemId = ratingRepository.findAllRatingByItemId(itemId);
 
@@ -86,7 +86,21 @@ public class RatingServiceImpl implements RatingService {
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
-	public Double getAverageRating() {
-		return ratingRepository.getAverageRating();
+	public Double getAverageRating(Item itemId) {
+		return ratingRepository.getAverageRating(itemId);
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false)
+	public Rating createRating(Rating rating) {
+		LOGGER.info("Creating a new Rating: {}", rating);
+		return ratingRepository.save(rating);
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false)
+	public void updateRating(Integer newValue, Integer ratingId) {
+		findRatingById(ratingId);
+		ratingRepository.updateRatingValue(newValue, ratingId);
 	}
 }

@@ -11,22 +11,17 @@ public class RatingDTO {
 
 	private Integer id;
 
-	private Integer rating;
+	private Integer value;
 
 	private Integer itemId;
 
 	public RatingDTO(Rating rating) {
 		this.id = rating.getId();
 		this.itemId = rating.getItemId().getId();
-		this.rating = rating.getValue();
+		this.value = rating.getValue();
 	}
 
 	public static List<RatingDTO> toRatingDTOList(List<Rating> ratingList) {
 		return ratingList.stream().map(RatingDTO::new).collect(Collectors.toList());
-	}
-
-	public static RatingDTO toRatingDTO(Rating rating) {
-		RatingDTO ratingDTO = new RatingDTO(rating);
-		return ratingDTO;
 	}
 }

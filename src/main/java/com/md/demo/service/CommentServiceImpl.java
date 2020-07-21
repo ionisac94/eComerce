@@ -54,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false)
 	public boolean isCommentDeleted(Integer id) {
 		boolean commentIsDeleted;
 		LOGGER.warn("Checking if Comment with id: {} exists in DB", id);
@@ -64,7 +64,7 @@ public class CommentServiceImpl implements CommentService {
 			commentRepository.deleteById(id);
 			return commentIsDeleted = true;
 		} else {
-			throw new NoSuchCommentExistException("No such Comment in DB!");
+			throw new NoSuchCommentExistException("No such Comment exists in DB!");
 		}
 	}
 
@@ -79,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public Comment createNewComment(Comment comment) {
+	public Comment createComment(Comment comment) {
 		return commentRepository.save(comment);
 	}
 
@@ -98,5 +98,12 @@ public class CommentServiceImpl implements CommentService {
 		commentToUpdate.setContent(actualContent);
 
 		return commentRepository.save(commentToUpdate);
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false)
+	public void updateComment(String newContent, Integer commentId) {
+		findCommentById(commentId);
+		commentRepository.updateContent(newContent, commentId);
 	}
 }

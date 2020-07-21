@@ -14,7 +14,9 @@ public interface CommentService {
 
 	Comment addComment(Integer itemId, String comment);
 
-	Comment createNewComment(Comment comment);
+	Comment createComment(Comment comment);
+
+	void updateComment(String newContent, Integer commentId);
 
 	Comment modifyComment(Integer itemId, Integer commentId, String comment);
 }

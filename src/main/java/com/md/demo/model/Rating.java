@@ -16,11 +16,11 @@ import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class Rating {
 
 	@Id
@@ -29,6 +29,7 @@ public class Rating {
 			pkColumnName = "GEN_NAME",
 			valueColumnName = "GEN_VALUE")
 	@GeneratedValue(generator = "Rating_Gen")
+	@NotNull
 	private Integer id;
 
 	@NotNull

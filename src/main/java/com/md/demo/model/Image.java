@@ -30,6 +30,7 @@ public class Image {
 			pkColumnName = "GEN_NAME",
 			valueColumnName = "GEN_VALUE")
 	@GeneratedValue(generator = "Image_Gen")
+	@NotNull
 	private Integer id;
 
 	@NotNull

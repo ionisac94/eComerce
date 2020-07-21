@@ -60,7 +60,7 @@ public class ItemController {
 		boolean itemDeleted = itemService.isItemDeleted(id);
 		LOGGER.warn("Item with id {} was deleted: {}", id, itemDeleted);
 
-		return ResponseEntity.status(HttpStatus.OK).body("Item successfully was deleted");
+		return ResponseEntity.status(HttpStatus.OK).body("Item was deleted successfully");
 	}
 
 	@GetMapping(value = "/item/{id}/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

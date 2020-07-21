@@ -17,11 +17,11 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class Comment {
 
 	@Id
@@ -30,6 +30,7 @@ public class Comment {
 			pkColumnName = "GEN_NAME",
 			valueColumnName = "GEN_VALUE")
 	@GeneratedValue(generator = "Comment_Gen")
+	@NotNull
 	private Integer id;
 
 	@NotNull

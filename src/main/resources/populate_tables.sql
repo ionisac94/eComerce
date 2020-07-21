@@ -1,18 +1,20 @@
-insert into `ecomerce`.`item` (`id`, `averageRating`, `description`, `title`) values ('1', '4.3', 'good item', 'laptop');
-insert into `ecomerce`.`item` (`id`, `averageRating`, `description`, `title`) values ('2', '3.3', 'bad item', 'phone');
+INSERT INTO `ecomerce`.`user` (`id`, `dateCreated`, `email`, `firstName`, `lastName`, `password`) VALUES ('1', '2019-09-01T00:00', 'hello', 'ion', 'isac', '1234');
+INSERT INTO `ecomerce`.`user` (`id`, `dateCreated`, `email`, `firstName`, `lastName`, `password`) VALUES ('2', '2019-09-01T00:00', 'hello1', 'ion', 'isac', '12234');
 
-insert into `ecomerce`.`comment` (`id`, `content`, `version`, `itemId`) values ('1', 'comment1', '1', '1');
-insert into `ecomerce`.`comment` (`id`, `content`, `version`, `itemId`) values ('2', 'comment2', '2', '1');
-insert into `ecomerce`.`comment` (`id`, `content`, `version`, `itemId`) values ('3', 'comment3', '3', '2');
-insert into `ecomerce`.`comment` (`id`, `content`, `version`, `itemId`) values ('4', 'comment4', '3', '2');
+INSERT INTO `ecomerce`.`item` (`id`, `averageRating`, `datePosted`, `description`, `title`, `userId`) VALUES ('1', '2', '2019-09-01T00:00', 'good', 'laptop', '1');
+INSERT INTO `ecomerce`.`item` (`id`, `averageRating`, `datePosted`, `description`, `title`, `userId`) VALUES ('2', '2', '2019-09-01T00:00', 'bad', 'phone', '2');
 
-insert into `ecomerce`.`rating` (`id`, `value`, `itemId`) values ('1', '4.3', '1');
-insert into `ecomerce`.`rating` (`id`, `value`, `itemId`) values ('2', '3.3', '1');
-insert into `ecomerce`.`rating` (`id`, `value`, `itemId`) values ('3', '4.3', '2');
+INSERT INTO `ecomerce`.`comment` (`id`, `content`, `datePosted`, `version`, `itemId`) VALUES ('1', 'good content', '2019-09-01T00:00', '1', '1');
+INSERT INTO `ecomerce`.`comment` (`id`, `content`, `datePosted`, `version`, `itemId`) VALUES ('2', 'bad content', '2019-09-01T00:00', '2', '1');
+INSERT INTO `ecomerce`.`comment` (`id`, `content`, `datePosted`, `version`, `itemId`) VALUES ('3', 'good content', '2019-09-01T00:00', '1', '2');
+INSERT INTO `ecomerce`.`comment` (`id`, `content`, `datePosted`, `version`, `itemId`) VALUES ('4', 'bad content', '2019-09-01T00:00', '2', '2');
 
-insert into `ecomerce`.`image` (`id`, `datePosted`, `name`, `thumbnail`, `itemId`) values
+INSERT INTO `ecomerce`.`rating` (`id`, `datePosted`, `value`, `itemId`) VALUES ('1', '2019-09-01T00:00', '3.2', '1');
+INSERT INTO `ecomerce`.`rating` (`id`, `datePosted`, `value`, `itemId`) VALUES ('2', '2019-09-01T00:00', '3.0', '1');
+INSERT INTO `ecomerce`.`rating` (`id`, `datePosted`, `value`, `itemId`) VALUES ('3', '2019-09-01T00:00', '3.2', '2');
+INSERT INTO `ecomerce`.`rating` (`id`, `datePosted`, `value`, `itemId`) VALUES ('4', '2019-09-01T00:00', '3.0', '2');
 
- (6, '2020-07-17 15:59:59', 'mac.jpg', false, 54);
-
-
-select * from image;
+INSERT INTO `ecomerce`.`image` (`id`, `datePosted`, `name`, `itemId`) VALUES ('1', '2019-09-01T00:00', 'laptop', '1');
+INSERT INTO `ecomerce`.`image` (`id`, `datePosted`, `name`, `itemId`) VALUES ('2', '2019-09-01T00:00', 'laptop2', '1');
+INSERT INTO `ecomerce`.`image` (`id`, `datePosted`, `name`, `itemId`) VALUES ('3', '2019-09-01T00:00', 'laptop', '2');
+INSERT INTO `ecomerce`.`image` (`id`, `datePosted`, `name`, `itemId`) VALUES ('4', '2019-09-01T00:00', 'laptop2', '2');

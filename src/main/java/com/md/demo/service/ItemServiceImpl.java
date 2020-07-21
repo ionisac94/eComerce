@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
@@ -34,6 +35,11 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	public List<Item> getAllItems() {
+		return (List<Item>) itemRepository.findAll();
+	}
+
+	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public boolean isItemDeleted(Integer id) {
 		boolean itemIsDeleted = false;
@@ -43,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
 			itemRepository.deleteById(id);
 			return itemIsDeleted = true;
 		} else {
-			throw  new NoSuchItemExistException("No such Item in DB!");
+			throw new NoSuchItemExistException("No such Item in DB!");
 		}
 	}
 }

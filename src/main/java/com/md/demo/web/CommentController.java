@@ -1,8 +1,10 @@
 package com.md.demo.web;
 
 import com.md.demo.dto.CommentDTO;
+import com.md.demo.mapper.CommentMapper;
 import com.md.demo.model.Comment;
 import com.md.demo.service.CommentService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,35 +19,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static java.util.Objects.requireNonNull;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/comment")
 public class CommentController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
 
-	private CommentService commentService;
-
-	public CommentController(CommentService commentService) {
-		this.commentService = requireNonNull(commentService, "commentService is mandatory");
-	}
+	private final CommentService commentService;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getComment(@PathVariable("id") Integer id) {
 		LOGGER.info("About to get a Comment from DB with id: {}", id);
 		Comment commentById = commentService.findCommentById(id);
 		LOGGER.info("Comment was found successfully!");
-		CommentDTO commentDTO = new CommentDTO(commentById);
+		CommentDTO commentDTO = CommentMapper.COMMENT_MAPPER.toDto(commentById);
 
 		return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteComment(@PathVariable("id") Integer id) {
+	public ResponseEntity<?> deleteComment(@PathVariable("id") Integer id) {
 		LOGGER.info("About to delete a Comment with id: {}", id);
 		boolean commentIsDeleted = commentService.isCommentDeleted(id);
-		LOGGER.info("Comment with id {} was deleted successfully ", id, commentIsDeleted);
+		LOGGER.info("Comment with id {} was deleted successfully {}", id, commentIsDeleted);
 
 		return ResponseEntity.status(HttpStatus.OK).body("Comment was deleted successfully");
 	}
@@ -53,8 +50,8 @@ public class CommentController {
 	@PostMapping("/createcomment")
 	public ResponseEntity<?> createNewComment(@RequestBody Comment newComment) {
 		Comment newCommentCreated = commentService.createComment(newComment);
-		CommentDTO commentDTO = new CommentDTO(newCommentCreated);
 		LOGGER.info("Comment was created successfully");
+		CommentDTO commentDTO = CommentMapper.COMMENT_MAPPER.toDto(newCommentCreated);
 
 		return ResponseEntity.status(HttpStatus.OK).body(commentDTO);
 	}

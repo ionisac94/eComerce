@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends CrudRepository<Comment, Integer> {
 
-	@Query("SELECT c FROM Comment c JOIN c.itemId item where item.id = :id")
+	@Query("SELECT c FROM Comment c JOIN c.item item where item.id = :id")
 	List<Comment> findAllCommentsByItemId(Integer id);
 
-	@Query("UPDATE Comment c SET c.content = :newContent WHERE c.id = :commentId")
+	@Query("UPDATE Comment c SET c.content = :newContent, c.version = c.version + 1 WHERE c.id = :commentId")
 	@Modifying
 	void updateContent(String newContent, Integer commentId);
 }

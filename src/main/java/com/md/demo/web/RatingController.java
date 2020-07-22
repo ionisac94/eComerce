@@ -1,8 +1,10 @@
 package com.md.demo.web;
 
 import com.md.demo.dto.RatingDTO;
+import com.md.demo.mapper.RatingMapper;
 import com.md.demo.model.Rating;
 import com.md.demo.service.RatingService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,26 +19,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Objects;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/rating")
 public class RatingController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RatingController.class);
 
-	private RatingService ratingService;
-
-	public RatingController(RatingService ratingService) {
-		this.ratingService = Objects.requireNonNull(ratingService, "ratingService is mandatory");
-	}
+	private final RatingService ratingService;
 
 	@GetMapping("/getrating/{id}")
 	public ResponseEntity<?> getRatingById(@PathVariable("id") Integer id) {
 		LOGGER.info("About to get a Rating with id: {}", id);
 		Rating ratingById = ratingService.findRatingById(id);
 		LOGGER.info("Rating with id {} was found successfully!", id);
-		RatingDTO ratingDTO = new RatingDTO(ratingById);
+		RatingDTO ratingDTO = RatingMapper.RATING_MAPPER.toDto(ratingById);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ratingDTO);
 	}
@@ -45,7 +42,7 @@ public class RatingController {
 	public ResponseEntity<?> deleteRatingById(@PathVariable("id") Integer id) {
 		LOGGER.info("About to delete a Rating with id: {}", id);
 		boolean ratingDeleted = ratingService.isRatingDeleted(id);
-		LOGGER.info("Rating with id {} was deleted successfully! ", id, ratingDeleted);
+		LOGGER.info("Rating with id {} was deleted successfully {} ", id, ratingDeleted);
 
 		return ResponseEntity.status(HttpStatus.OK).body("Rating was deleted successfully!");
 	}
@@ -54,10 +51,9 @@ public class RatingController {
 	public ResponseEntity<?> createRating(@RequestBody Rating rating) {
 		LOGGER.info("About to create a new Rating: {}", rating);
 		Rating newRating = ratingService.createRating(rating);
-		RatingDTO ratingDTO = new RatingDTO(newRating);
 		LOGGER.info("Rating was created successfully {}", rating);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ratingDTO);
+		return ResponseEntity.status(HttpStatus.OK).body("ratingDTO");
 	}
 
 	@PutMapping("/updaterating/{id}")

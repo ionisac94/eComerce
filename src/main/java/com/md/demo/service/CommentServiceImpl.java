@@ -72,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public Comment addComment(Integer itemId, String comment) {
 		Item itemById = itemService.getItemById(itemId);
-		Comment newComment = Comment.builder().content(comment).itemId(itemById).build();
+		Comment newComment = Comment.builder().content(comment).item(itemById).build();
 
 		return commentRepository.save(newComment);
 	}
@@ -90,7 +90,7 @@ public class CommentServiceImpl implements CommentService {
 
 		Comment commentToUpdate = commentsByItemId
 				.stream()
-				.filter(e -> e.getId() == commentId)
+				.filter(e -> e.getId().equals(commentId))
 				.findFirst().get();
 
 		String actualContent = commentToUpdate.getContent();

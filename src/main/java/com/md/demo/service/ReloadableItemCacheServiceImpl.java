@@ -36,7 +36,8 @@ public class ReloadableItemCacheServiceImpl implements ReloadableItemCacheServic
 		}
 	}
 
-	@Scheduled(fixedDelayString = "${ecomerce.cache.refreshRate}")
+//	@Scheduled(fixedDelayString = "${ecomerce.cache.refreshRate}")
+//	Use if it you need it
 	@Override
 	public void loadCache() {
 		LOGGER.info("Started cache loading");
@@ -44,7 +45,7 @@ public class ReloadableItemCacheServiceImpl implements ReloadableItemCacheServic
 			allItems = itemService.getAllItems();
 			LOGGER.info("Cache loaded with {} entities", allItems.size());
 		} catch (Exception ex) {
-			LOGGER.error("Unable to retrieve items from DB", ex);
+			LOGGER.error("Unable to retrieve items from DB, something went wrong with DB", ex);
 		}
 	}
 

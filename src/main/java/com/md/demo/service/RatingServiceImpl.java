@@ -79,7 +79,7 @@ public class RatingServiceImpl implements RatingService {
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public Rating addRating(Integer itemId, Integer value) {
 		Item itemById = itemService.getItemById(itemId);
-		Rating newRating = Rating.builder().value(value).itemId(itemById).build();
+		Rating newRating = Rating.builder().value(value).item(itemById).build();
 
 		return ratingRepository.save(newRating);
 	}

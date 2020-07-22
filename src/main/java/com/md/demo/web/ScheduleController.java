@@ -1,6 +1,7 @@
 package com.md.demo.web;
 
 import com.md.demo.service.ReloadableItemCacheService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
 public class ScheduleController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleController.class);
 
-	@Autowired
-	private ReloadableItemCacheService reloadableItemCacheService;
+	private final ReloadableItemCacheService reloadableItemCacheService;
 
 	@GetMapping(path = "/cache/clear", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Void> clearCache() {

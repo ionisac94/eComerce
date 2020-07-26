@@ -7,6 +7,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ItemMapper {
 
@@ -19,4 +21,8 @@ public interface ItemMapper {
 	ItemDTO toDto(Item item);
 
 	Item toEntity(ItemDTO itemDTO);
+
+	List<ItemDTO> toDtos(List<Item> items);
+
+	List<Item> toEntities(List<ItemDTO> itemDTOs);
 }

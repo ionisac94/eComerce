@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface RatingService {
 
+	List<Rating> findAllRatings();
+
 	Rating findRatingById(Integer id);
 
 	boolean isRatingDeleted(Integer id);

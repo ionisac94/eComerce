@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -42,6 +44,8 @@ public class Rating {
 
 	//TODO do not forget to remember about Foreign Key Options from DB if u want to delete/update a parent row
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//	An alternative option from Hibernate to delete a raw that has a foreign-key!!!
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "itemId")
 	@NotNull
 	private Item item;

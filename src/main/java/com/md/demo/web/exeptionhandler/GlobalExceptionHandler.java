@@ -5,6 +5,7 @@ import com.md.demo.exception.NoSuchCommentExistException;
 import com.md.demo.exception.NoSuchImageExistException;
 import com.md.demo.exception.NoSuchItemExistException;
 import com.md.demo.exception.NoSuchRatingExistException;
+import com.md.demo.exception.RatingValidationValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -66,5 +67,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		body.put("message", "Sorry, No such image!");
 		LOGGER.error("An error was occurred: " + ex.getMessage());
 		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(RatingValidationValueException.class)
+	public ResponseEntity<?> handleRatingValidationValueException(RatingValidationValueException ex, WebRequest request) {
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", "Sorry, You voted incorrect!");
+		LOGGER.error("An error was occurred: " + ex.getMessage());
+		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
 	}
 }

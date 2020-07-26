@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
-	public List<Comment> getAllComments(Integer itemId) {
+	public List<Comment> getAllCommentsByItemId(Integer itemId) {
 		LOGGER.info("About getting comments from DB");
 
 		List<Comment> allByItem = commentRepository.findAllCommentsByItemId(itemId);
@@ -42,6 +42,14 @@ public class CommentServiceImpl implements CommentService {
 		} else {
 			return allByItem;
 		}
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+	public List<Comment> getAllComments() {
+		LOGGER.info("About getting all comments from DB");
+
+		return (List<Comment>) commentRepository.findAll();
 	}
 
 	@Override

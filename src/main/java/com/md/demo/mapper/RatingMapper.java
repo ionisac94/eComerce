@@ -7,6 +7,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface RatingMapper {
 
@@ -19,4 +21,8 @@ public interface RatingMapper {
 	RatingDTO toDto(Rating rating);
 
 	Rating toEntity(RatingDTO ratingDTO);
+
+	List<RatingDTO> toDtos(List<Rating> ratings);
+
+	List<Rating> toEntities(List<RatingDTO> ratingsDTO);
 }

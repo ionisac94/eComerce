@@ -4,6 +4,8 @@ import com.md.demo.dto.RatingDTO;
 import com.md.demo.mapper.RatingMapper;
 import com.md.demo.model.Rating;
 import com.md.demo.service.RatingService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+@Api(description = "Perform CRUD operations on Rating Entity")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/rating")
@@ -28,6 +33,18 @@ public class RatingController {
 
 	private final RatingService ratingService;
 
+	@ApiOperation(value = "Get all Ratings")
+	@GetMapping("/getrating/all")
+	public ResponseEntity<?> getAllRatings() {
+		LOGGER.info("About to get all Ratings");
+		List<Rating> ratings = ratingService.findAllRatings();
+		LOGGER.info("Ratings were found successfully!");
+		List<RatingDTO> ratingDTOS = RatingMapper.RATING_MAPPER.toDtos(ratings);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ratingDTOS);
+	}
+
+	@ApiOperation(value = "Get a specific Rating by id")
 	@GetMapping("/getrating/{id}")
 	public ResponseEntity<?> getRatingById(@PathVariable("id") Integer id) {
 		LOGGER.info("About to get a Rating with id: {}", id);
@@ -38,6 +55,7 @@ public class RatingController {
 		return ResponseEntity.status(HttpStatus.OK).body(ratingDTO);
 	}
 
+	@ApiOperation(value = "Delete a specific Rating by id")
 	@DeleteMapping("/deleterating/{id}")
 	public ResponseEntity<?> deleteRatingById(@PathVariable("id") Integer id) {
 		LOGGER.info("About to delete a Rating with id: {}", id);
@@ -47,6 +65,7 @@ public class RatingController {
 		return ResponseEntity.status(HttpStatus.OK).body("Rating was deleted successfully!");
 	}
 
+	@ApiOperation(value = "Create a new Rating")
 	@PostMapping("/createrating")
 	public ResponseEntity<?> createRating(@RequestBody Rating rating) {
 		LOGGER.info("About to create a new Rating: {}", rating);
@@ -56,6 +75,7 @@ public class RatingController {
 		return ResponseEntity.status(HttpStatus.OK).body("ratingDTO");
 	}
 
+	@ApiOperation(value = "Update Rating`s value")
 	@PutMapping("/updaterating/{id}")
 	public ResponseEntity<?> updateRating(@RequestParam Integer newValue, @PathVariable Integer id) {
 		LOGGER.info("About to update value field for a Rating with id: {}", id);

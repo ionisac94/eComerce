@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface CommentService {
 
-	List<Comment> getAllComments(Integer itemId);
+	List<Comment> getAllCommentsByItemId(Integer itemId);
+
+	List<Comment> getAllComments();
 
 	Comment findCommentById(Integer id);
 

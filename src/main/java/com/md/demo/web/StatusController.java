@@ -1,5 +1,6 @@
 package com.md.demo.web;
 
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthEndpoint;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * StatusController for the application.
  */
-
+@Api(description = "An endpoint for DevOps team to check this app if is up and running")
 @AllArgsConstructor
 @RestController
 public class StatusController {

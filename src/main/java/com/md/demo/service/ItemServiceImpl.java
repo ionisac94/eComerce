@@ -35,6 +35,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public List<Item> getAllItems() {
 		return (List<Item>) itemRepository.findAll();
 	}

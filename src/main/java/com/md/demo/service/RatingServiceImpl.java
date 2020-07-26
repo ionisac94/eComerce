@@ -1,6 +1,7 @@
 package com.md.demo.service;
 
 import com.md.demo.exception.NoSuchRatingExistException;
+import com.md.demo.exception.RatingValidationValueException;
 import com.md.demo.model.Item;
 import com.md.demo.model.Rating;
 import com.md.demo.repository.RatingRepository;
@@ -53,6 +54,12 @@ public class RatingServiceImpl implements RatingService {
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+	public List<Rating> findAllRatings() {
+		return (List<Rating>) ratingRepository.findAll();
+	}
+
+	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public Rating findRatingById(Integer id) {
 		Optional<Rating> optionalRating = ratingRepository.findById(id);
 		LOGGER.info("Fetched a Rating from DB: {}", optionalRating);
@@ -79,9 +86,14 @@ public class RatingServiceImpl implements RatingService {
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public Rating addRating(Integer itemId, Integer value) {
 		Item itemById = itemService.getItemById(itemId);
-		Rating newRating = Rating.builder().value(value).item(itemById).build();
 
-		return ratingRepository.save(newRating);
+		if (value <= 5 && value > 0) {
+			Rating newRating = Rating.builder().value(value).item(itemById).build();
+
+			return ratingRepository.save(newRating);
+		} else {
+			throw new RatingValidationValueException("Rating`s value should match between [0:5) units :)");
+		}
 	}
 
 	@Override

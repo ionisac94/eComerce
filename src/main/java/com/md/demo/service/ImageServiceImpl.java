@@ -5,6 +5,7 @@ import com.md.demo.exception.NoSuchImageExistException;
 import com.md.demo.model.Image;
 import com.md.demo.model.Item;
 import com.md.demo.repository.ImageRepository;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,22 +15,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class ImageServiceImpl implements ImageService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImageServiceImpl.class);
 
-	private ImageRepository imageRepository;
+	private final ImageRepository imageRepository;
 
-	private ItemService itemService;
-
-	public ImageServiceImpl(ImageRepository imageRepository, ItemService itemService) {
-		this.imageRepository = Objects.requireNonNull(imageRepository, "imageRepository is mandatory");
-		this.itemService = Objects.requireNonNull(itemService, "itemService is mandatory");
-	}
+	private final ItemService itemService;
 
 	@Override
 	public Image createNewImage(MultipartFile imageData, Integer id) {

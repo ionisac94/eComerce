@@ -3,6 +3,7 @@ package com.md.demo.service;
 import com.md.demo.exception.NoSuchItemExistException;
 import com.md.demo.model.Item;
 import com.md.demo.repository.ItemRepository;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,18 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Objects.requireNonNull;
-
+@RequiredArgsConstructor
 @Service
 public class ItemServiceImpl implements ItemService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ItemServiceImpl.class);
 
-	private ItemRepository itemRepository;
-
-	public ItemServiceImpl(ItemRepository itemRepository) {
-		this.itemRepository = requireNonNull(itemRepository, "itemRepository can not be null");
-	}
+	private final ItemRepository itemRepository;
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)

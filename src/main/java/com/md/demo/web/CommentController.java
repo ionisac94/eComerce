@@ -1,15 +1,12 @@
 package com.md.demo.web;
 
 import com.md.demo.dto.CommentDTO;
-import com.md.demo.dto.RatingDTO;
 import com.md.demo.mapper.CommentMapper;
-import com.md.demo.mapper.RatingMapper;
 import com.md.demo.model.Comment;
-import com.md.demo.model.Rating;
 import com.md.demo.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @Api(description = "Perform CRUD operations on Comment Entity")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/comment")
 public class CommentController {

@@ -5,6 +5,7 @@ import com.md.demo.exception.RatingValidationValueException;
 import com.md.demo.model.Item;
 import com.md.demo.model.Rating;
 import com.md.demo.repository.RatingRepository;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,22 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class RatingServiceImpl implements RatingService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RatingServiceImpl.class);
 
-	private RatingRepository ratingRepository;
+	private final RatingRepository ratingRepository;
 
-	private ItemService itemService;
-
-	public RatingServiceImpl(RatingRepository ratingRepository, ItemService itemService) {
-		this.ratingRepository = Objects.requireNonNull(ratingRepository, "ratingRepository is mandatory");
-		this.itemService = Objects.requireNonNull(itemService, "itemService is mandatory");
-	}
+	private final ItemService itemService;
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)

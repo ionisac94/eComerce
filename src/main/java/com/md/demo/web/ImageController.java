@@ -3,7 +3,7 @@ package com.md.demo.web;
 import com.md.demo.service.ImageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Api(description = "Perform CRUD operations on Image Entity")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/image")
 public class ImageController {

@@ -6,7 +6,7 @@ import com.md.demo.model.Rating;
 import com.md.demo.service.RatingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @Api(description = "Perform CRUD operations on Rating Entity")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/rating")
 public class RatingController {

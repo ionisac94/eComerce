@@ -4,6 +4,7 @@ import com.md.demo.exception.NoSuchCommentExistException;
 import com.md.demo.model.Comment;
 import com.md.demo.model.Item;
 import com.md.demo.repository.CommentRepository;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,21 +15,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Objects.requireNonNull;
-
+@RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommentServiceImpl.class);
 
-	private CommentRepository commentRepository;
+	private final CommentRepository commentRepository;
 
-	private ItemService itemService;
-
-	public CommentServiceImpl(CommentRepository commentRepository, ItemService itemService) {
-		this.commentRepository = requireNonNull(commentRepository, "commentRepository can not be null");
-		this.itemService = requireNonNull(itemService, "itemService can not be null");
-	}
+	private final ItemService itemService;
 
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
